@@ -14,7 +14,7 @@ const inquiryRoutes = require('./routes/inquiryRoutes');
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 // Enable CORS for frontend clients
 app.use(cors({

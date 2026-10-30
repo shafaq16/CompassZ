@@ -118,7 +118,7 @@ Configure your variables:
 
 ```env
 # Server Port
-PORT=5000
+PORT=3000
 NODE_ENV=development
 
 # Supabase PostgreSQL Connection URI
@@ -143,7 +143,7 @@ cp frontend/.env.example frontend/.env
 ```
 
 ```env
-VITE_API_BASE_URL=http://localhost:5000/api
+VITE_API_BASE_URL=http://localhost:3000/api
 ```
 
 > **Security Note:** Secret credentials and database passwords are kept strictly inside `.env` and are excluded from Git via `.gitignore`.
@@ -189,7 +189,7 @@ npm install
 cd backend
 npm start
 ```
-The backend API server will run at `http://localhost:5000`.
+The backend API server will run at `http://localhost:3000`.
 
 ### Step 3: Start Frontend Dev Server
 
@@ -218,7 +218,7 @@ The React frontend will run at `http://localhost:5173`.
 
 **1. Login & Obtain JWT Token:**
 ```bash
-curl -X POST http://localhost:5000/api/auth/login \
+curl -X POST http://localhost:3000/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"admin@example.com","password":"admin123"}'
 ```
@@ -240,7 +240,7 @@ curl -X POST http://localhost:5000/api/auth/login \
 
 **2. Access Protected Inquiries API using the Bearer Token:**
 ```bash
-curl -X GET "http://localhost:5000/api/inquiries?category=Scholarship" \
+curl -X GET "http://localhost:3000/api/inquiries?category=Scholarship" \
   -H "Authorization: Bearer <PASTE_TOKEN_HERE>"
 ```
 
@@ -273,7 +273,7 @@ curl -X GET "http://localhost:5000/api/inquiries?category=Scholarship" \
   - Root directory: `backend`
   - Build command: `npm install`
   - Start command: `node server.js`
-  - Environment variables: `DATABASE_URL`, `JWT_SECRET`, `PORT=5000`.
+  - Environment variables: `DATABASE_URL`, `JWT_SECRET`, `PORT=3000`.
 
 ---
 
