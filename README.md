@@ -1,4 +1,4 @@
-# EduCRM - EdTech CRM & Inquiry System
+# CompassZ - EdTech CRM & Inquiry System
 
 A modern full-stack CRM inquiry management system built with **React**, **Node.js (Express)**, **Custom JWT-based Authentication**, and **Supabase (PostgreSQL)**. 
 
@@ -278,5 +278,5 @@ curl -X GET "http://localhost:3000/api/inquiries?category=Scholarship" \
 ---
 
 ## 📄 License
-ISC License &copy; EduCRM
+ISC License &copy; CompassZ
 

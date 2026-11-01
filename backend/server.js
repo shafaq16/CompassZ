@@ -3,7 +3,6 @@ const dotenv = require('dotenv');
 
 // Load environment variables from backend/.env or root .env
 dotenv.config({ path: path.join(__dirname, '.env') });
-dotenv.config(); // fallback to current working directory if exists
 
 const express = require('express');
 const cors = require('cors');
@@ -11,14 +10,13 @@ const db = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const inquiryRoutes = require('./routes/inquiryRoutes');
 
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Enable CORS for frontend clients
 app.use(cors({
-  origin: '*', // Allow requests from any origin or configured frontend
+  origin: (process.env.CORS_ORIGIN || 'http://localhost:5173').split(','), // set CORS_ORIGIN to your deployed frontend URL
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -70,7 +68,7 @@ app.use((err, req, res, next) => {
 async function startServer() {
   await db.initDb();
   app.listen(PORT, () => {
-    console.log(`🚀 EduCRM Backend Server running on http://localhost:${PORT}`);
+    console.log(`🚀 CompassZ Backend Server running on http://localhost:${PORT}`);
     console.log(`📋 API Health Check available at http://localhost:${PORT}/api/health`);
   });
 }

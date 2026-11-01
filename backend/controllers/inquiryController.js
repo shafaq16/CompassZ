@@ -20,6 +20,17 @@ async function createInquiry(req, res) {
       });
     }
 
+    // Type, length and phone validation
+    if ([name, email, phone, message].some((v) => typeof v !== 'string')) {
+      return res.status(400).json({ success: false, message: 'Invalid input.' });
+    }
+    if (name.length > 150 || email.length > 150 || message.length > 2000) {
+      return res.status(400).json({ success: false, message: 'One or more fields are too long.' });
+    }
+    if (!/^[0-9+()\-\s]{7,20}$/.test(phone.trim())) {
+      return res.status(400).json({ success: false, message: 'Please provide a valid phone number.' });
+    }
+
     // Email format validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email.trim())) {
@@ -62,8 +73,8 @@ async function createInquiry(req, res) {
       savedInquiry = result.rows[0];
     } else {
       // In-memory fallback
-      const newId = db.fallbackStore.inquiries.length > 0 
-        ? Math.max(...db.fallbackStore.inquiries.map((i) => i.id)) + 1 
+      const newId = db.fallbackStore.inquiries.length > 0
+        ? Math.max(...db.fallbackStore.inquiries.map((i) => i.id)) + 1
         : 1;
 
       savedInquiry = {

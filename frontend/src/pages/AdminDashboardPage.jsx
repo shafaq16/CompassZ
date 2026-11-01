@@ -1,22 +1,22 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { 
-  GraduationCap, 
-  LayoutDashboard, 
-  Inbox, 
-  BarChart3, 
-  UserCircle, 
-  LogOut, 
-  Menu, 
-  X, 
-  Search, 
-  RotateCcw, 
-  FileText, 
-  Clock, 
-  CheckCircle2, 
-  MoreVertical, 
-  ChevronDown, 
-  Eye, 
-  Trash2, 
+import {
+  GraduationCap,
+  LayoutDashboard,
+  Inbox,
+  BarChart3,
+  UserCircle,
+  LogOut,
+  Menu,
+  X,
+  Search,
+  RotateCcw,
+  FileText,
+  Clock,
+  CheckCircle2,
+  MoreVertical,
+  ChevronDown,
+  Eye,
+  Trash2,
   ExternalLink,
   ChevronRight,
   Filter,
@@ -53,7 +53,7 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
 
   // Action Menu Open ID
   const [activeMenuId, setActiveMenuId] = useState(null);
-  
+
   // Profile dropdown menu open state
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
@@ -147,19 +147,18 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
 
   return (
     <div className="h-screen bg-slate-50 flex overflow-hidden text-slate-900 font-sans">
-      
+
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-sm md:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar (Permanently Fixed in place - does not scroll with page content) */}
-      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-slate-200 flex flex-col justify-between transition-transform duration-200 ease-in-out md:translate-x-0 shrink-0 h-full ${
-        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-      }`}>
+      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-slate-200 flex flex-col justify-between transition-transform duration-200 ease-in-out md:translate-x-0 shrink-0 h-full ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}>
         <div>
           {/* Logo Area */}
           <div className="h-20 px-6 flex items-center justify-between border-b border-slate-100">
@@ -168,10 +167,10 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
                 <GraduationCap className="w-5 h-5" />
               </div>
               <span className="text-xl font-black tracking-tight text-slate-900">
-                EduCRM
+                CompassZ
               </span>
             </div>
-            <button 
+            <button
               onClick={() => setSidebarOpen(false)}
               className="md:hidden text-slate-400 hover:text-slate-600"
             >
@@ -183,11 +182,10 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
           <nav className="p-4 space-y-1.5 text-left">
             <button
               onClick={() => { setActiveTab('dashboard'); setSidebarOpen(false); }}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all ${
-                activeTab === 'dashboard'
-                  ? 'bg-brand-50 text-brand-700 shadow-sm border border-brand-200/60'
-                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
-              }`}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all ${activeTab === 'dashboard'
+                ? 'bg-brand-50 text-brand-700 shadow-sm border border-brand-200/60'
+                : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                }`}
             >
               <LayoutDashboard className="w-4 h-4 shrink-0 text-brand-600" />
               <span>Dashboard</span>
@@ -195,11 +193,10 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
 
             <button
               onClick={() => { setActiveTab('all'); setSidebarOpen(false); }}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all ${
-                activeTab === 'all'
-                  ? 'bg-brand-50 text-brand-700 shadow-sm border border-brand-200/60'
-                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
-              }`}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all ${activeTab === 'all'
+                ? 'bg-brand-50 text-brand-700 shadow-sm border border-brand-200/60'
+                : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                }`}
             >
               <Inbox className="w-4 h-4 shrink-0" />
               <span>All Inquiries</span>
@@ -207,11 +204,10 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
 
             <button
               onClick={() => { setActiveTab('analytics'); setSidebarOpen(false); }}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all ${
-                activeTab === 'analytics'
-                  ? 'bg-brand-50 text-brand-700 shadow-sm border border-brand-200/60'
-                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
-              }`}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all ${activeTab === 'analytics'
+                ? 'bg-brand-50 text-brand-700 shadow-sm border border-brand-200/60'
+                : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                }`}
             >
               <BarChart3 className="w-4 h-4 shrink-0" />
               <span>Analytics</span>
@@ -219,11 +215,10 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
 
             <button
               onClick={() => { setActiveTab('profile'); setSidebarOpen(false); }}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all ${
-                activeTab === 'profile'
-                  ? 'bg-brand-50 text-brand-700 shadow-sm border border-brand-200/60'
-                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
-              }`}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all ${activeTab === 'profile'
+                ? 'bg-brand-50 text-brand-700 shadow-sm border border-brand-200/60'
+                : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                }`}
             >
               <UserCircle className="w-4 h-4 shrink-0" />
               <span>Profile</span>
@@ -231,8 +226,29 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
           </nav>
         </div>
 
-        {/* Bottom Sidebar: Logout */}
-        <div className="p-4 border-t border-slate-100">
+        {/* Bottom Sidebar: CTA Card + Logout */}
+        <div className="p-4 space-y-3 border-t border-slate-100">
+          {/* Public Site CTA Card - inspired by reference "Level Up" card */}
+          <div className="relative rounded-2xl bg-accent-500 p-4 overflow-hidden">
+            <div className="absolute -top-4 -right-4 w-16 h-16 rounded-full bg-accent-400/40" />
+            <div className="absolute -bottom-3 -left-3 w-12 h-12 rounded-full bg-accent-600/30" />
+            <div className="relative">
+              <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center mb-3">
+                <ExternalLink className="w-4 h-4 text-white" />
+              </div>
+              <p className="text-xs text-accent-100 font-medium">Public portal is</p>
+              <h4 className="text-sm font-black text-white leading-snug mt-0.5">Live &amp; accepting inquiries</h4>
+              <button
+                type="button"
+                onClick={() => onNavigate('public')}
+                className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white text-accent-600 text-xs font-bold hover:bg-cream-50 transition-colors"
+              >
+                View Site
+                <ChevronRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+
           <button
             onClick={() => {
               clearAuthSession();
@@ -248,10 +264,10 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
 
       {/* Main Content Area - Scrollable with permanent fixed sidebar offset */}
       <div className="flex-1 flex flex-col min-w-0 h-full overflow-y-auto md:ml-64">
-        
+
         {/* Top Navbar */}
         <header className="h-16 sm:h-20 bg-white border-b border-slate-200 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30 shadow-xs">
-          
+
           {/* Left: Mobile Sidebar Trigger & Breadcrumb Navigation */}
           <div className="flex items-center gap-3 sm:gap-4">
             <button
@@ -279,13 +295,13 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
               className="text-xs font-semibold px-3 py-1.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 hover:text-brand-700 border border-slate-200 transition-colors hidden lg:inline-flex items-center gap-1.5 cursor-pointer"
             >
               <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
-              <span>View Public Website</span>
+              <span>Back to Home</span>
             </button>
           </div>
 
           {/* Right: Quick Indicators & Interactive Admin Profile */}
           <div className="flex items-center gap-3 sm:gap-4">
-            
+
             {/* Live Database Status Indicator */}
             <div className="hidden md:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/80 text-[11px] font-bold text-emerald-800 shadow-2xs">
               <span className="relative flex h-2 w-2">
@@ -328,9 +344,9 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
               {/* Floating Profile Dropdown Menu */}
               {profileDropdownOpen && (
                 <>
-                  <div 
-                    className="fixed inset-0 z-40" 
-                    onClick={() => setProfileDropdownOpen(false)} 
+                  <div
+                    className="fixed inset-0 z-40"
+                    onClick={() => setProfileDropdownOpen(false)}
                   />
                   <div className="absolute right-0 mt-2 w-60 rounded-2xl bg-white border border-slate-200 shadow-2xl z-50 p-2 space-y-1 text-left animate-fadeIn">
                     <div className="px-3 py-2.5 bg-slate-50 rounded-xl border border-slate-100">
@@ -356,7 +372,7 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
                       className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-brand-700 transition-colors cursor-pointer"
                     >
                       <ExternalLink className="w-4 h-4 text-slate-500" />
-                      <span>View Public Website</span>
+                      <span>Back to Home</span>
                     </button>
 
                     <div className="border-t border-slate-100 my-1" />
@@ -383,11 +399,11 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
 
         {/* Main Body */}
         <main className="p-4 sm:p-8 space-y-6 max-w-7xl w-full mx-auto">
-          
+
           {/* TAB 1: EXECUTIVE DASHBOARD OVERVIEW */}
           {activeTab === 'dashboard' && (
             <div className="space-y-6">
-              
+
               {/* Header Title */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-left">
                 <div>
@@ -412,9 +428,9 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
 
               {/* 4 Stat KPI Cards */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 text-left">
-                
+
                 {/* 1. Total Inquiries */}
-                <div 
+                <div
                   onClick={() => { setActiveTab('all'); setSelectedStatus('All Statuses'); }}
                   className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4 hover:border-slate-300 transition-all cursor-pointer group"
                 >
@@ -428,7 +444,7 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
                 </div>
 
                 {/* 2. New */}
-                <div 
+                <div
                   onClick={() => { setActiveTab('all'); setSelectedStatus('New'); }}
                   className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4 hover:border-blue-300 transition-all cursor-pointer group"
                 >
@@ -442,7 +458,7 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
                 </div>
 
                 {/* 3. In Progress */}
-                <div 
+                <div
                   onClick={() => { setActiveTab('all'); setSelectedStatus('In Progress'); }}
                   className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4 hover:border-amber-300 transition-all cursor-pointer group"
                 >
@@ -456,7 +472,7 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
                 </div>
 
                 {/* 4. Resolved */}
-                <div 
+                <div
                   onClick={() => { setActiveTab('all'); setSelectedStatus('Resolved'); }}
                   className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4 hover:border-emerald-300 transition-all cursor-pointer group"
                 >
@@ -502,7 +518,7 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
 
               {/* Mid-Row: Category & User Type Quick Breakdown */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
-                
+
                 {/* Category Distribution Card */}
                 <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
                   <div className="flex items-center justify-between">
@@ -519,8 +535,8 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
                           <span>{count} ({percent}%)</span>
                         </div>
                         <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-                          <div 
-                            className="h-full rounded-full bg-brand-600 transition-all duration-500" 
+                          <div
+                            className="h-full rounded-full bg-brand-600 transition-all duration-500"
                             style={{ width: `${percent}%` }}
                           />
                         </div>
@@ -545,8 +561,8 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
                           <span>{count} ({percent}%)</span>
                         </div>
                         <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-                          <div 
-                            className="h-full rounded-full bg-indigo-500 transition-all duration-500" 
+                          <div
+                            className="h-full rounded-full bg-indigo-500 transition-all duration-500"
                             style={{ width: `${percent}%` }}
                           />
                         </div>
@@ -588,8 +604,8 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
                     </thead>
                     <tbody className="divide-y divide-slate-100 text-xs sm:text-sm">
                       {inquiries.slice(0, 5).map((inq) => (
-                        <tr 
-                          key={inq.id} 
+                        <tr
+                          key={inq.id}
                           className="hover:bg-slate-50/80 transition-colors cursor-pointer"
                           onClick={() => setSelectedInquiry(inq)}
                         >
@@ -606,20 +622,18 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
                             {inq.category}
                           </td>
                           <td className="py-3 px-4">
-                            <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold ${
-                              inq.status === 'New'
-                                ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                                : inq.status === 'In Progress'
+                            <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold ${inq.status === 'New'
+                              ? 'bg-blue-50 text-blue-700 border border-blue-200'
+                              : inq.status === 'In Progress'
                                 ? 'bg-amber-50 text-amber-700 border border-amber-200'
                                 : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                            }`}>
-                              <span className={`w-1.5 h-1.5 rounded-full ${
-                                inq.status === 'New'
-                                  ? 'bg-blue-600'
-                                  : inq.status === 'In Progress'
+                              }`}>
+                              <span className={`w-1.5 h-1.5 rounded-full ${inq.status === 'New'
+                                ? 'bg-blue-600'
+                                : inq.status === 'In Progress'
                                   ? 'bg-amber-600'
                                   : 'bg-emerald-600'
-                              }`} />
+                                }`} />
                               {inq.status}
                             </span>
                           </td>
@@ -660,7 +674,7 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
 
               {/* Filter & Search Bar Row (as shown in reference image) */}
               <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col lg:flex-row items-stretch lg:items-center gap-3">
-                
+
                 {/* Category Dropdown Filter */}
                 <div className="relative min-w-[180px]">
                   <select
@@ -731,7 +745,7 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
 
               {/* 4 Stat KPI Cards (from reference image) */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 text-left">
-                
+
                 {/* 1. Total Inquiries */}
                 <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
                   <div className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-700 shrink-0">
@@ -782,7 +796,7 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
               <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
                 <div className="overflow-x-auto">
                   <table className="w-full text-left border-collapse">
-                    
+
                     {/* Table Headers */}
                     <thead>
                       <tr className="border-b border-slate-200 bg-slate-50/70 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
@@ -817,8 +831,8 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
                         </tr>
                       ) : (
                         inquiries.map((inq, idx) => (
-                          <tr 
-                            key={inq.id} 
+                          <tr
+                            key={inq.id}
                             className="hover:bg-slate-50/80 transition-colors group cursor-pointer"
                             onClick={() => setSelectedInquiry(inq)}
                           >
@@ -856,20 +870,18 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
 
                             {/* Status Badge */}
                             <td className="py-3.5 px-4 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
-                              <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold ${
-                                inq.status === 'New'
-                                  ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                                  : inq.status === 'In Progress'
+                              <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold ${inq.status === 'New'
+                                ? 'bg-blue-50 text-blue-700 border border-blue-200'
+                                : inq.status === 'In Progress'
                                   ? 'bg-amber-50 text-amber-700 border border-amber-200'
                                   : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                              }`}>
-                                <span className={`w-1.5 h-1.5 rounded-full ${
-                                  inq.status === 'New'
-                                    ? 'bg-blue-600'
-                                    : inq.status === 'In Progress'
+                                }`}>
+                                <span className={`w-1.5 h-1.5 rounded-full ${inq.status === 'New'
+                                  ? 'bg-blue-600'
+                                  : inq.status === 'In Progress'
                                     ? 'bg-amber-600'
                                     : 'bg-emerald-600'
-                                }`} />
+                                  }`} />
                                 {inq.status}
                               </span>
                             </td>
@@ -893,8 +905,8 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
                                 {/* Dropdown menu */}
                                 {activeMenuId === inq.id && (
                                   <>
-                                    <div 
-                                      className="fixed inset-0 z-30" 
+                                    <div
+                                      className="fixed inset-0 z-30"
                                       onClick={() => setActiveMenuId(null)}
                                     />
                                     <div className="absolute right-0 mt-2 w-48 rounded-2xl bg-white border border-slate-200 shadow-xl z-40 py-1 text-left animate-fadeIn">
@@ -994,7 +1006,7 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                
+
                 {/* Category Breakdown */}
                 <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
                   <h3 className="text-base font-bold text-slate-900">Inquiries by Category</h3>
@@ -1008,8 +1020,8 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
                           <span>{count} ({percent}%)</span>
                         </div>
                         <div className="w-full h-2.5 rounded-full bg-slate-100 overflow-hidden">
-                          <div 
-                            className="h-full rounded-full bg-brand-600 transition-all duration-500" 
+                          <div
+                            className="h-full rounded-full bg-brand-600 transition-all duration-500"
                             style={{ width: `${percent}%` }}
                           />
                         </div>
@@ -1031,8 +1043,8 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
                           <span>{count} ({percent}%)</span>
                         </div>
                         <div className="w-full h-2.5 rounded-full bg-slate-100 overflow-hidden">
-                          <div 
-                            className="h-full rounded-full bg-indigo-500 transition-all duration-500" 
+                          <div
+                            className="h-full rounded-full bg-indigo-500 transition-all duration-500"
                             style={{ width: `${percent}%` }}
                           />
                         </div>
@@ -1048,31 +1060,40 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
           {/* Profile View */}
           {activeTab === 'profile' && (
             <div className="max-w-xl mx-auto bg-white p-8 rounded-3xl border border-slate-200 shadow-sm text-left space-y-6">
+              {/* Avatar + name */}
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 rounded-2xl bg-brand-700 text-white font-black text-2xl flex items-center justify-center shadow-lg shadow-brand-700/20">
                   A
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-slate-900">{adminUser.name || 'Admin User'}</h2>
-                  <p className="text-sm text-slate-500">{adminUser.email}</p>
+                  <h2 className="text-xl font-bold text-slate-900">Admin User</h2>
+                  <p className="text-sm text-slate-500">{adminUser.email || 'shafaq@gmail.com'}</p>
                   <span className="inline-block mt-1 px-2.5 py-0.5 rounded-full bg-brand-50 text-brand-700 text-xs font-bold border border-brand-200">
                     Administrator
                   </span>
                 </div>
               </div>
 
-              <div className="border-t border-slate-100 pt-6 space-y-4 text-xs text-slate-600">
-                <div className="flex justify-between py-2 border-b border-slate-100">
-                  <span className="font-semibold text-slate-500">Authentication Method:</span>
-                  <span className="font-bold text-slate-900">Custom Backend JWT</span>
-                </div>
-                <div className="flex justify-between py-2 border-b border-slate-100">
-                  <span className="font-semibold text-slate-500">Session Status:</span>
-                  <span className="font-bold text-emerald-600">Active (24h valid)</span>
-                </div>
-                <div className="flex justify-between py-2 border-b border-slate-100">
-                  <span className="font-semibold text-slate-500">Security:</span>
-                  <span className="font-bold text-slate-900">Bcrypt Salt 10 Rounds</span>
+              {/* Profile Information */}
+              <div>
+                <h3 className="text-sm font-bold text-slate-800 mb-4">Profile Information</h3>
+                <div className="space-y-0 text-sm text-slate-600 border border-slate-100 rounded-xl overflow-hidden">
+                  {[
+                    { label: 'Account ID', value: 'A73B9C24' },
+                    { label: 'Phone Number', value: '(555) 123-4567' },
+                    { label: 'Joined Date', value: 'Jan 15, 2022' },
+                    { label: 'Organization Unit', value: 'IT & Engineering' },
+                    { label: 'Role', value: 'Super Administrator' },
+                  ].map(({ label, value }, i, arr) => (
+                    <div
+                      key={label}
+                      className={`flex justify-between items-center px-4 py-3 text-xs ${i < arr.length - 1 ? 'border-b border-slate-100' : ''
+                        }`}
+                    >
+                      <span className="text-slate-500">{label}:</span>
+                      <span className="font-bold text-slate-900">{value}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -1082,7 +1103,7 @@ export default function AdminDashboardPage({ onLogout, onNavigate }) {
                   clearAuthSession();
                   if (onLogout) onLogout();
                 }}
-                className="w-full py-3 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 font-bold text-xs transition-colors"
+                className="w-full py-3 rounded-xl bg-rose-50 text-rose-500 hover:bg-rose-100 font-semibold text-sm transition-colors italic"
               >
                 Sign Out of Admin Console
               </button>

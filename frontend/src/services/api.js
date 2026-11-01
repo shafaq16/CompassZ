@@ -4,30 +4,30 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000
  * Helper to get authentication token from localStorage
  */
 export function getAuthToken() {
-  return localStorage.getItem('educrm_admin_token');
+  return localStorage.getItem('CompassZ_admin_token');
 }
 
 /**
  * Helper to store authentication token and admin profile
  */
 export function setAuthSession(token, admin) {
-  localStorage.setItem('educrm_admin_token', token);
-  localStorage.setItem('educrm_admin_profile', JSON.stringify(admin));
+  localStorage.setItem('CompassZ_admin_token', token);
+  localStorage.setItem('CompassZ_admin_profile', JSON.stringify(admin));
 }
 
 /**
  * Helper to clear authentication session
  */
 export function clearAuthSession() {
-  localStorage.removeItem('educrm_admin_token');
-  localStorage.removeItem('educrm_admin_profile');
+  localStorage.removeItem('CompassZ_admin_token');
+  localStorage.removeItem('CompassZ_admin_profile');
 }
 
 /**
  * Helper to retrieve stored admin profile
  */
 export function getStoredAdmin() {
-  const data = localStorage.getItem('educrm_admin_profile');
+  const data = localStorage.getItem('CompassZ_admin_profile');
   try {
     return data ? JSON.parse(data) : null;
   } catch {

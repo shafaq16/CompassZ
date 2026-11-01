@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { 
-  X, 
-  User, 
-  Mail, 
-  Phone, 
-  Calendar, 
-  Tag, 
-  GraduationCap, 
-  Clock, 
-  CheckCircle2, 
-  Trash2, 
+import {
+  X,
+  User,
+  Mail,
+  Phone,
+  Calendar,
+  Tag,
+  GraduationCap,
+  Clock,
+  CheckCircle2,
+  Trash2,
   MessageSquare,
   ExternalLink,
   Loader2
@@ -59,17 +59,17 @@ export default function InquiryDetailModal({ inquiry, onClose, onUpdated, onDele
 
   const formattedDate = inquiry.created_at
     ? new Date(inquiry.created_at).toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      })
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    })
     : 'N/A';
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">
-      <div 
+      <div
         className="bg-white rounded-3xl max-w-2xl w-full border border-slate-100 shadow-2xl overflow-hidden transform transition-all text-left"
         onClick={(e) => e.stopPropagation()}
       >
@@ -93,25 +93,23 @@ export default function InquiryDetailModal({ inquiry, onClose, onUpdated, onDele
 
         {/* Modal Body */}
         <div className="p-6 sm:p-8 space-y-6">
-          
+
           {/* Status Bar */}
           <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div>
               <span className="text-xs font-semibold text-slate-500 block">Current Status</span>
-              <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold mt-1 ${
-                currentStatus === 'New' 
-                  ? 'bg-blue-100 text-blue-800' 
-                  : currentStatus === 'In Progress' 
-                  ? 'bg-amber-100 text-amber-800' 
-                  : 'bg-emerald-100 text-emerald-800'
-              }`}>
-                <span className={`w-2 h-2 rounded-full ${
-                  currentStatus === 'New' 
-                    ? 'bg-blue-600' 
-                    : currentStatus === 'In Progress' 
-                    ? 'bg-amber-600' 
-                    : 'bg-emerald-600'
-                }`} />
+              <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold mt-1 ${currentStatus === 'New'
+                  ? 'bg-blue-100 text-blue-800'
+                  : currentStatus === 'In Progress'
+                    ? 'bg-amber-100 text-amber-800'
+                    : 'bg-emerald-100 text-emerald-800'
+                }`}>
+                <span className={`w-2 h-2 rounded-full ${currentStatus === 'New'
+                    ? 'bg-blue-600'
+                    : currentStatus === 'In Progress'
+                      ? 'bg-amber-600'
+                      : 'bg-emerald-600'
+                  }`} />
                 {currentStatus}
               </span>
             </div>
@@ -123,11 +121,10 @@ export default function InquiryDetailModal({ inquiry, onClose, onUpdated, onDele
                 type="button"
                 disabled={loadingStatus || currentStatus === 'New'}
                 onClick={() => handleStatusChange('New')}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
-                  currentStatus === 'New'
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${currentStatus === 'New'
                     ? 'bg-blue-600 text-white shadow-sm'
                     : 'bg-white border border-slate-200 text-slate-700 hover:bg-blue-50 hover:text-blue-700'
-                }`}
+                  }`}
               >
                 New
               </button>
@@ -135,11 +132,10 @@ export default function InquiryDetailModal({ inquiry, onClose, onUpdated, onDele
                 type="button"
                 disabled={loadingStatus || currentStatus === 'In Progress'}
                 onClick={() => handleStatusChange('In Progress')}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
-                  currentStatus === 'In Progress'
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${currentStatus === 'In Progress'
                     ? 'bg-amber-600 text-white shadow-sm'
                     : 'bg-white border border-slate-200 text-slate-700 hover:bg-amber-50 hover:text-amber-700'
-                }`}
+                  }`}
               >
                 In Progress
               </button>
@@ -147,11 +143,10 @@ export default function InquiryDetailModal({ inquiry, onClose, onUpdated, onDele
                 type="button"
                 disabled={loadingStatus || currentStatus === 'Resolved'}
                 onClick={() => handleStatusChange('Resolved')}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
-                  currentStatus === 'Resolved'
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${currentStatus === 'Resolved'
                     ? 'bg-emerald-600 text-white shadow-sm'
                     : 'bg-white border border-slate-200 text-slate-700 hover:bg-emerald-50 hover:text-emerald-700'
-                }`}
+                  }`}
               >
                 Resolved
               </button>
@@ -160,7 +155,7 @@ export default function InquiryDetailModal({ inquiry, onClose, onUpdated, onDele
 
           {/* Contact Details Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            
+
             {/* Name */}
             <div className="p-3.5 rounded-2xl bg-slate-50/60 border border-slate-100 flex items-center gap-3">
               <div className="w-9 h-9 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center shrink-0">

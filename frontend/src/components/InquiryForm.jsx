@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { User, Mail, Phone, Send, CheckCircle2, AlertCircle, ChevronDown, Loader2, X } from 'lucide-react';
+import { Send, CheckCircle2, AlertCircle, Loader2, X, Clock, Mail, MapPin } from 'lucide-react';
 import { submitInquiry } from '../services/api';
 
 const USER_TYPES = ['Parent', 'Student', 'School'];
-const CATEGORIES = ['Scholarship', 'Concert', 'Admission', 'General Query'];
+const CATEGORIES = ['Scholarship', 'Admission', 'Study Abroad', 'Hackathon', 'Competition', 'Quiz', 'Concert', 'General Query'];
+
+const inputBase =
+  'w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 ' +
+  'focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition-all';
 
 export default function InquiryForm({ onSubmitted, initialCategory }) {
   const [formData, setFormData] = useState({
@@ -12,369 +16,276 @@ export default function InquiryForm({ onSubmitted, initialCategory }) {
     name: '',
     email: '',
     phone: '',
-    message: ''
+    message: '',
   });
 
   useEffect(() => {
     if (initialCategory && CATEGORIES.includes(initialCategory)) {
-      setFormData((prev) => ({ ...prev, category: initialCategory }));
+      setFormData(p => ({ ...p, category: initialCategory }));
     }
   }, [initialCategory]);
 
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-
-  // Floating Toast Notification state
   const [toast, setToast] = useState(null);
 
-  // Auto-dismiss toast after 5 seconds
   useEffect(() => {
-    if (toast?.show) {
-      const timer = setTimeout(() => {
-        setToast(null);
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
+    if (!toast) return;
+    const t = setTimeout(() => setToast(null), 4000);
+    return () => clearTimeout(t);
   }, [toast]);
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(p => ({ ...p, [name]: value }));
     if (errorMessage) setErrorMessage(null);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setErrorMessage(null);
     setSuccessMessage(null);
 
-    // Validation
     if (!formData.name.trim() || !formData.email.trim() || !formData.phone.trim() || !formData.message.trim()) {
       const msg = 'Please fill in all required fields.';
       setErrorMessage(msg);
-      setToast({
-        show: true,
-        type: 'error',
-        title: 'Validation Error',
-        message: msg
-      });
+      setToast({ type: 'error', title: 'Validation error', message: msg });
       return;
     }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email.trim())) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
       const msg = 'Please provide a valid email address.';
       setErrorMessage(msg);
-      setToast({
-        show: true,
-        type: 'error',
-        title: 'Invalid Email Address',
-        message: msg
-      });
+      setToast({ type: 'error', title: 'Invalid email', message: msg });
       return;
     }
 
     try {
       setLoading(true);
       const res = await submitInquiry(formData);
-      const successText = res.message || 'Inquiry submitted successfully! Our team will contact you soon.';
-      setSuccessMessage(successText);
-
-      // Trigger floating success Toast Notification
-      setToast({
-        show: true,
-        type: 'success',
-        title: 'Inquiry Submitted Successfully!',
-        message: 'Thank you! Your inquiry has been saved into our system and our counseling team will get back to you soon.'
-      });
-
-      // Reset form
-      setFormData({
-        user_type: 'Parent',
-        category: 'Scholarship',
-        name: '',
-        email: '',
-        phone: '',
-        message: ''
-      });
-
-      if (onSubmitted) {
-        onSubmitted(res.inquiry);
-      }
+      const ok = res.message || 'Inquiry submitted! Our team will be in touch soon.';
+      setSuccessMessage(ok);
+      setToast({ type: 'success', title: 'Inquiry submitted!', message: 'Our counselling team will get back to you shortly.' });
+      setFormData({ user_type: 'Parent', category: 'Scholarship', name: '', email: '', phone: '', message: '' });
+      if (onSubmitted) onSubmitted(res.inquiry);
     } catch (err) {
-      const errorText = err.message || 'Something went wrong while submitting. Please try again.';
-      setErrorMessage(errorText);
-
-      // Trigger floating error Toast Notification
-      setToast({
-        show: true,
-        type: 'error',
-        title: 'Submission Failed',
-        message: errorText
-      });
+      const msg = err.message || 'Something went wrong. Please try again.';
+      setErrorMessage(msg);
+      setToast({ type: 'error', title: 'Submission failed', message: msg });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <section id="contact" className="scroll-mt-24">
+    <section id="contact" className="scroll-mt-20">
 
-      {/* Floating Toast Notification */}
+      {/* Toast */}
       {toast && (
         <div
           role="alert"
           aria-live="assertive"
-          className={`fixed top-24 right-4 sm:right-8 z-50 max-w-md w-[calc(100%-2rem)] sm:w-auto p-4 rounded-2xl shadow-2xl border-2 transition-all duration-300 ease-out flex items-start gap-3.5 animate-fadeIn backdrop-blur-md ${toast.type === 'success'
-              ? 'bg-white/95 border-emerald-400 text-slate-900 shadow-emerald-500/20 ring-4 ring-emerald-50'
-              : 'bg-white/95 border-rose-400 text-slate-900 shadow-rose-500/20 ring-4 ring-rose-50'
+          className={`fixed top-20 right-4 sm:right-8 z-50 w-[calc(100%-2rem)] sm:w-80 p-4 rounded-2xl shadow-xl border flex items-start gap-3 animate-fade-in ${toast.type === 'success' ? 'bg-white border-brand-200' : 'bg-white border-rose-200'
             }`}
         >
-          {/* Toast Status Icon */}
-          <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 shadow-sm ${toast.type === 'success'
-              ? 'bg-emerald-600 text-white shadow-emerald-600/30'
-              : 'bg-rose-600 text-white shadow-rose-600/30'
+          <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${toast.type === 'success' ? 'bg-brand-700 text-white' : 'bg-rose-500 text-white'
             }`}>
-            {toast.type === 'success' ? (
-              <CheckCircle2 className="w-5 h-5" />
-            ) : (
-              <AlertCircle className="w-5 h-5" />
-            )}
+            {toast.type === 'success' ? <CheckCircle2 className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
           </div>
-
-          {/* Toast Body */}
-          <div className="flex-1 text-left min-w-0 pr-1">
-            <h4 className="text-sm font-extrabold text-slate-900 leading-tight">
-              {toast.title}
-            </h4>
-            <p className="text-xs text-slate-600/90 mt-1 leading-relaxed font-normal">
-              {toast.message}
-            </p>
-            <span className="block text-[10px] text-slate-400 font-semibold mt-1.5 uppercase tracking-wider">
-              {toast.type === 'success' ? 'Saved to Supabase Database' : 'Submission Alert'}
-            </span>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold text-slate-900">{toast.title}</p>
+            <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">{toast.message}</p>
           </div>
-
-          {/* Toast Dismiss Button */}
-          <button
-            type="button"
-            onClick={() => setToast(null)}
-            className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors focus:outline-none cursor-pointer"
-            aria-label="Close notification"
-          >
+          <button onClick={() => setToast(null)} className="p-1 text-slate-400 hover:text-slate-600 cursor-pointer focus:outline-none">
             <X className="w-4 h-4" />
           </button>
         </div>
       )}
 
-      <div id="inquiry-form" className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-20 pt-2 sm:pt-4">
+      {/* Main layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[700px]">
 
-        {/* Container Card */}
-        <div className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/80 shadow-xl shadow-slate-200/50 p-4 sm:p-10 lg:p-12 transition-all">
+        {/* ─── LEFT — dark forest panel ─── */}
+        <div className="relative bg-brand-900 px-8 sm:px-14 py-16 sm:py-20 flex flex-col justify-between overflow-hidden">
 
-          {/* Card Header */}
-          <div className="mb-5 sm:mb-8 text-left">
-            <h2 className="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-              Submit Your Inquiry
+          {/* Subtle background texture circles */}
+          <div className="absolute -top-24 -left-24 w-72 h-72 rounded-full bg-brand-700/30 blur-3xl pointer-events-none" />
+          <div className="absolute bottom-10 right-0 w-56 h-56 rounded-full bg-accent-500/10 blur-2xl pointer-events-none" />
+
+          {/* Top copy */}
+          <div className="relative z-10">
+            <p className="text-xs font-semibold tracking-[0.18em] uppercase text-accent-400 mb-5">
+              Get in touch
+            </p>
+            <h2 className="text-4xl sm:text-5xl font-bold font-serif text-white leading-[1.1] mb-6">
+              Have a question?<br />
+              We're here<br />
+              to help.
             </h2>
-            <p className="mt-1 text-xs sm:text-base text-slate-500 font-normal">
-              Fill out the form below and our team will get back to you soon.
+            <p className="text-sm text-brand-300 leading-relaxed max-w-xs">
+              Tell us who you are and what you'd like to know.
+              Your inquiry goes straight to our counselling team.
             </p>
           </div>
 
-          {/* Success Alert */}
-          {successMessage && (
-            <div className="mb-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-start gap-3.5 text-emerald-800 animate-fadeIn">
-              <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
-              <div>
-                <p className="text-sm font-bold">Inquiry Received!</p>
-                <p className="text-xs text-emerald-700 mt-0.5">{successMessage}</p>
+          {/* Bottom info blocks */}
+          <div className="relative z-10 mt-14 grid grid-cols-1 sm:grid-cols-2 gap-8 pt-10 border-t border-brand-700/60">
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <Clock className="w-3.5 h-3.5 text-accent-400" />
+                <span className="text-[10px] font-bold uppercase tracking-widest text-brand-400">Response Time</span>
               </div>
+              <p className="text-sm font-semibold text-white">Within 24 hours</p>
+              <p className="text-xs text-brand-400 mt-0.5">Mon – Sat, 9 AM – 6 PM</p>
             </div>
-          )}
-
-          {/* Error Alert */}
-          {errorMessage && (
-            <div className="mb-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 flex items-start gap-3.5 text-rose-800 animate-fadeIn">
-              <AlertCircle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
-              <div>
-                <p className="text-sm font-bold">Submission Error</p>
-                <p className="text-xs text-rose-700 mt-0.5">{errorMessage}</p>
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <Mail className="w-3.5 h-3.5 text-accent-400" />
+                <span className="text-[10px] font-bold uppercase tracking-widest text-brand-400">Email</span>
               </div>
+              <p className="text-sm font-semibold text-white">hello@CompassZ.edu</p>
+              <p className="text-xs text-brand-400 mt-0.5">Or submit the form →</p>
             </div>
-          )}
-
-          {/* The Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
-
-            {/* Row 1: User Type & Category */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-
-              {/* User Type */}
-              <div>
-                <label htmlFor="user_type" className="block text-sm font-semibold text-slate-700 mb-2">
-                  User Type <span className="text-rose-500">*</span>
-                </label>
-                <div className="relative">
-                  <select
-                    id="user_type"
-                    name="user_type"
-                    value={formData.user_type}
-                    onChange={handleChange}
-                    className="w-full appearance-none bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all cursor-pointer"
-                    required
-                  >
-                    {USER_TYPES.map((type) => (
-                      <option key={type} value={type}>
-                        {type}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
-                </div>
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <MapPin className="w-3.5 h-3.5 text-accent-400" />
+                <span className="text-[10px] font-bold uppercase tracking-widest text-brand-400">Enquiries</span>
               </div>
-
-              {/* Category */}
-              <div>
-                <label htmlFor="category" className="block text-sm font-semibold text-slate-700 mb-2">
-                  Category <span className="text-rose-500">*</span>
-                </label>
-                <div className="relative">
-                  <select
-                    id="category"
-                    name="category"
-                    value={formData.category}
-                    onChange={handleChange}
-                    className="w-full appearance-none bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all cursor-pointer"
-                    required
-                  >
-                    {CATEGORIES.map((cat) => (
-                      <option key={cat} value={cat}>
-                        {cat}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
-                </div>
-              </div>
-
+              <p className="text-sm font-semibold text-white">Scholarships · Admissions</p>
+              <p className="text-xs text-brand-400 mt-0.5">Study Abroad · Events · More</p>
             </div>
+          </div>
+        </div>
 
-            {/* Row 2: Name & Email */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        {/* ─── RIGHT — floating white form card ─── */}
+        <div className="bg-cream-100 flex items-center justify-center px-6 sm:px-12 py-14">
+          <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-cream-200 p-7 sm:p-9">
 
-              {/* Full Name */}
-              <div>
-                <label htmlFor="name" className="block text-sm font-semibold text-slate-700 mb-2">
-                  Name <span className="text-rose-500">*</span>
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                    <User className="w-4 h-4" />
-                  </div>
+            {/* Card header */}
+            <h3 className="text-xl font-bold text-brand-900 font-serif mb-1">Tell Us What You Need</h3>
+            <p className="text-xs text-slate-400 mb-6 leading-relaxed">
+              Our team is ready to assist you with every detail, big or small.
+            </p>
+
+            {/* Alerts */}
+            {successMessage && (
+              <div className="mb-5 p-3.5 rounded-xl bg-brand-50 border border-brand-200 flex items-start gap-2.5 animate-fade-in">
+                <CheckCircle2 className="w-4 h-4 text-brand-700 shrink-0 mt-0.5" />
+                <p className="text-xs text-brand-800">{successMessage}</p>
+              </div>
+            )}
+            {errorMessage && (
+              <div className="mb-5 p-3.5 rounded-xl bg-rose-50 border border-rose-200 flex items-start gap-2.5 animate-fade-in">
+                <AlertCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
+                <p className="text-xs text-rose-700">{errorMessage}</p>
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+
+              {/* Name + Phone */}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label htmlFor="name" className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Full Name</label>
                   <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="Enter your full name"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all"
-                    required
+                    type="text" id="name" name="name"
+                    value={formData.name} onChange={handleChange}
+                    placeholder="Aarav Sharma"
+                    className={inputBase} required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="phone" className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Phone Number</label>
+                  <input
+                    type="tel" id="phone" name="phone"
+                    value={formData.phone} onChange={handleChange}
+                    placeholder="98765 43210"
+                    className={inputBase} required
                   />
                 </div>
               </div>
 
               {/* Email */}
               <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-slate-700 mb-2">
-                  Email <span className="text-rose-500">*</span>
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                    <Mail className="w-4 h-4" />
-                  </div>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="Enter your email address"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all"
-                    required
-                  />
+                <label htmlFor="email" className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Email Address</label>
+                <input
+                  type="email" id="email" name="email"
+                  value={formData.email} onChange={handleChange}
+                  placeholder="you@example.com"
+                  className={inputBase} required
+                />
+              </div>
+
+              {/* I am a — pill selector */}
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">I Am A</p>
+                <div className="flex flex-wrap gap-2">
+                  {USER_TYPES.map(type => (
+                    <button
+                      key={type}
+                      type="button"
+                      onClick={() => setFormData(p => ({ ...p, user_type: type }))}
+                      className={`px-3.5 py-1.5 rounded-full text-xs font-medium border transition-all cursor-pointer ${formData.user_type === type
+                        ? 'bg-brand-900 border-brand-900 text-white'
+                        : 'bg-white border-slate-200 text-slate-600 hover:border-brand-400 hover:text-brand-700'
+                        }`}
+                    >
+                      {type}
+                    </button>
+                  ))}
                 </div>
               </div>
 
-            </div>
-
-            {/* Row 3: Phone Number */}
-            <div>
-              <label htmlFor="phone" className="block text-sm font-semibold text-slate-700 mb-2">
-                Phone Number <span className="text-rose-500">*</span>
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                  <Phone className="w-4 h-4" />
+              {/* Inquiry about — pill selector */}
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Inquiry About</p>
+                <div className="flex flex-wrap gap-2">
+                  {CATEGORIES.map(cat => (
+                    <button
+                      key={cat}
+                      type="button"
+                      onClick={() => setFormData(p => ({ ...p, category: cat }))}
+                      className={`px-3.5 py-1.5 rounded-full text-xs font-medium border transition-all cursor-pointer ${formData.category === cat
+                        ? 'bg-accent-500 border-accent-500 text-white'
+                        : 'bg-white border-slate-200 text-slate-600 hover:border-accent-300 hover:text-accent-600'
+                        }`}
+                    >
+                      {cat}
+                    </button>
+                  ))}
                 </div>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="Enter your phone number"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all"
+              </div>
+
+              {/* Message */}
+              <div>
+                <label htmlFor="message" className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Your Question</label>
+                <textarea
+                  id="message" name="message"
+                  rows={4}
+                  value={formData.message} onChange={handleChange}
+                  placeholder="Tell us what you'd like to know…"
+                  className={`${inputBase} resize-y`}
                   required
                 />
               </div>
-            </div>
 
-            {/* Row 4: Message / Query */}
-            <div>
-              <label htmlFor="message" className="block text-sm font-semibold text-slate-700 mb-2">
-                Message / Query <span className="text-rose-500">*</span>
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                rows={4}
-                value={formData.message}
-                onChange={handleChange}
-                placeholder="Write your message or query here..."
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all resize-y"
-                required
-              />
-            </div>
-
-            {/* Submit Button */}
-            <div className="pt-2">
+              {/* Submit */}
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl font-bold text-white bg-brand-700 hover:bg-brand-800 focus:ring-4 focus:ring-brand-500/30 shadow-lg shadow-brand-700/25 transition-all transform active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed"
+                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-sm font-semibold text-white bg-brand-900 hover:bg-brand-800 shadow-md transition-all hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
               >
-                {loading ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    <span>Submitting Inquiry...</span>
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-4 h-4" />
-                    <span>Submit Inquiry</span>
-                  </>
-                )}
+                {loading
+                  ? <><Loader2 className="w-4 h-4 animate-spin" /><span>Submitting…</span></>
+                  : <><Send className="w-4 h-4" /><span>Submit inquiry</span></>
+                }
               </button>
-            </div>
 
-          </form>
-
+            </form>
+          </div>
         </div>
+
       </div>
     </section>
   );
 }
-
