@@ -104,7 +104,7 @@ export default function Navbar({ onNavigate, activeView }) {
               onClick={() => onNavigate(isAuthenticated ? 'dashboard' : 'login')}
               className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium text-brand-700 border border-brand-700/60 hover:bg-brand-700 hover:text-white transition-all cursor-pointer"
             >
-              {isAuthenticated ? 'Dashboard' : 'Staff login'}
+              {isAuthenticated ? 'Dashboard' : 'Signin'}
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -140,7 +140,7 @@ export default function Navbar({ onNavigate, activeView }) {
               onClick={() => { setMobileMenuOpen(false); onNavigate(isAuthenticated ? 'dashboard' : 'login'); }}
               className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium text-brand-700 border border-brand-700/60 hover:bg-brand-700 hover:text-white transition-all cursor-pointer"
             >
-              {isAuthenticated ? 'Dashboard' : 'Staff login'}
+              {isAuthenticated ? 'Dashboard' : 'Signin'}
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
